@@ -37,6 +37,18 @@ import VisualObjectInstance = powerbi.VisualObjectInstance;
 import DataView = powerbi.DataView;
 import VisualObjectInstanceEnumerationObject = powerbi.VisualObjectInstanceEnumerationObject;
 
+import { legend, legendInterfaces } from "powerbi-visuals-utils-chartutils";
+import ILegend = legendInterfaces.ILegend;
+import LegendData = legendInterfaces.LegendData;
+import LegendDataPoint = legendInterfaces.LegendDataPoint;
+import LegendPosition = legendInterfaces.LegendPosition;
+import createLegend = legend.createLegend;
+
+import { interactivitySelectionService, interactivityBaseService } from "powerbi-visuals-utils-interactivityutils";
+import IInteractivityService = interactivityBaseService.IInteractivityService;
+import SelectableDataPoint = interactivitySelectionService.SelectableDataPoint;
+import createInteractivityService = interactivitySelectionService.createInteractivitySelectionService;
+
 import * as d3 from "d3";
 type Selection<T extends d3.BaseType> = d3.Selection<T, any,any, any>;
 
@@ -47,6 +59,13 @@ export class Visual implements IVisual {
     private settings: VisualSettings;
     private textNode: Text;
 
+    private element: HTMLElement;
+    private currentViewport: powerbi.IViewport;
+    private visualInitOptions: VisualConstructorOptions;
+    private layers: any[];
+    private interactivityService: IInteractivityService<LegendDataPoint>;
+    private legend: ILegend;
+ 
     constructor(options: VisualConstructorOptions) {
         console.log('Visual constructor', options);
         this.target = options.element;
@@ -60,6 +79,8 @@ export class Visual implements IVisual {
             new_p.appendChild(new_em);
             this.target.appendChild(new_p);
         }
+
+        this.init(options);
     }
 
     public update(options: VisualUpdateOptions) {
@@ -81,5 +102,25 @@ export class Visual implements IVisual {
      */
     public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstance[] | VisualObjectInstanceEnumerationObject {
         return VisualSettings.enumerateObjectInstances(this.settings || VisualSettings.getDefault(), options);
+    }
+
+    public init(options: VisualConstructorOptions) {
+        this.visualInitOptions = options;
+        this.layers = [];
+
+        var element = this.element = options.element;
+        var hostServices = options.host;
+
+        //... some other init calls
+
+        //if (this.behavior) {
+            this.interactivityService = createInteractivityService(hostServices);
+        //}
+
+        this.legend = createLegend(
+            element,
+            true,//options.interactivity && options.interactivity.isInteractiveLegend,
+            this.interactivityService,
+            true);
     }
 }
