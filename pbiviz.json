@@ -1,0 +1,25 @@
+{
+    "visual": {
+        "name": "legendIssueVisual",
+        "displayName": "legend issue visual",
+        "guid": "legendIssueVisual7923B085E0474D3ABA44FD5F98E55C70",
+        "visualClassName": "Visual",
+        "version": "1.0.0",
+        "description": "This visual is dedicated to solve the legend issue",
+        "supportUrl": "mailto:alexandervelilyaev@gmail.com",
+        "gitHubUrl": "https://github.com/Alexandervelilyaev/legend-issue-visual.git"
+    },
+    "apiVersion": "2.6.0",
+    "author": {
+        "name": "Alexander Velilyaev",
+        "email": "alexandervelilyaev@gmail.com"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": null,
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": []
+}
