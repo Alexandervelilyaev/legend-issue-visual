@@ -1,2 +1,3 @@
 pbiviz new legend issue visual
 npm i powerbi-visuals-utils-chartutils
+npm i powerbi-visuals-utils-interactivityutils
